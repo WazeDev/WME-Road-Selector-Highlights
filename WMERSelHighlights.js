@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name            WME Road Selector Highlights
 // @namespace       https://greasyfork.org/users/11629-TheLastTaterTot
-// @version         0.7.8.8
+// @version         2017.12.02.01
 // @description     Create custom highlighters to colorize segments based on your selection criteria. Requires WME Road Selector to function.
 // @author          TheLastTaterTot
-// @include         https://editor-beta.waze.com/*editor/*
-// @include         https://www.waze.com/*editor/*
-// @exclude         https://www.waze.com/*user/editor/*
+// @include         https://beta.waze.com/*editor*
+// @include         https://www.waze.com/*editor*
+// @exclude         https://www.waze.com/*user/editor*
 // @require         https://greasyfork.org/scripts/17641-rsel-exprparser-basic/code/rsel-exprparser-basic.js?version=116041
 // @run-at          document-end
 // @icon            data:image/png;base64,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
@@ -1422,7 +1422,7 @@ function RSelHighlights() {
             draggable: false
         });
 
-        I18n.translations.en.layers.name.__RSel_Highlights = 'Road Selector Highlights';
+        I18n.translations[I18n.currentLocale()].layers.name.__RSel_Highlights = 'Road Selector Highlights';
         Waze.map.addLayer(rsh_ol);
         Waze.map.addControl(new OL.Control.DrawFeature(rsh_ol, OL.Handler.Path));
         rsh_ol.setZIndex(501);
@@ -1445,7 +1445,7 @@ function RSelHighlights() {
             draggable: false
         });
 
-        I18n.translations.en.layers.name.__RSel_Highlights_Under = 'Road Selector Highlights (Under)';
+        I18n.translations[I18n.currentLocale()].layers.name.__RSel_Highlights_Under = 'Road Selector Highlights (Under)';
         Waze.map.addLayer(rsh_olu);
         Waze.map.addControl(new OL.Control.DrawFeature(rsh_olu, OL.Handler.Path));
 
