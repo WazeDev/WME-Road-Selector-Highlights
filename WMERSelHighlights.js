@@ -3,7 +3,7 @@
 // @namespace       https://greasyfork.org/users/11629-TheLastTaterTot
 // @version         2017.12.02.01
 // @description     Create custom highlighters to colorize segments based on your selection criteria. Requires WME Road Selector to function.
-// @author          TheLastTaterTot
+// @author          TheLastTaterTot (WazeDev fork)
 // @include         https://beta.waze.com/*editor*
 // @include         https://www.waze.com/*editor*
 // @exclude         https://www.waze.com/*user/editor*
