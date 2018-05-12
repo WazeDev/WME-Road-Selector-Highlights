@@ -3,7 +3,7 @@
 // @namespace       https://greasyfork.org/users/11629-TheLastTaterTot
 // @version         2017.12.02.01
 // @description     Create custom highlighters to colorize segments based on your selection criteria. Requires WME Road Selector to function.
-// @author          TheLastTaterTot (WazeDev fork)
+// @author          TheLastTaterTot
 // @include         https://beta.waze.com/*editor*
 // @include         https://www.waze.com/*editor*
 // @exclude         https://www.waze.com/*user/editor*
@@ -1021,11 +1021,11 @@ function RSelHighlights() {
                 //checkAllSegs = true;
             } //      Pass Boolean true or rsh.idx. TODO: Allow specifying rsh.idx
 
-            var currentZoom = Waze.map.zoom,
+            var currentZoom = W.map.zoom,
                 lineStyle = rsh._clone(rsh_seg[currentZoom].lineStyle),
                 lineStyleOvrlp = rsh_seg[currentZoom].lineStyleOvrlp,
                 traceLineStyle = rsh_seg[currentZoom].traceLineStyle,
-                segments = Waze.model.segments.objects, //***********
+                segments = W.model.segments.objects, //***********
                 ids = Object.keys(segments),
                 highlighterRuleIndexes,
                 newFeatureArray = [], newFeatureArrayu = [],
@@ -1262,7 +1262,7 @@ function RSelHighlights() {
             if (newFeatureArray.length) rsh_OL.addFeatures(newFeatureArray);
             if (newFeatureArrayu.length) rsh_OLu.addFeatures(newFeatureArrayu);
 
-            if (userFallback) rsh_OLu.setZIndex(Waze.map.roadLayers[0].getZIndex()-1);
+            if (userFallback) rsh_OLu.setZIndex(W.map.roadLayers[0].getZIndex()-1);
 
             //----------------------------------------------------------------------------------------------
             // Check if time to perform cleanup
@@ -1423,8 +1423,8 @@ function RSelHighlights() {
         });
 
         I18n.translations[I18n.currentLocale()].layers.name.__RSel_Highlights = 'Road Selector Highlights';
-        Waze.map.addLayer(rsh_ol);
-        Waze.map.addControl(new OL.Control.DrawFeature(rsh_ol, OL.Handler.Path));
+        W.map.addLayer(rsh_ol);
+        W.map.addControl(new OL.Control.DrawFeature(rsh_ol, OL.Handler.Path));
         rsh_ol.setZIndex(501);
         rsh_ol.setVisibility(false);
         rsh_ol._featureMap = {
@@ -1446,11 +1446,11 @@ function RSelHighlights() {
         });
 
         I18n.translations[I18n.currentLocale()].layers.name.__RSel_Highlights_Under = 'Road Selector Highlights (Under)';
-        Waze.map.addLayer(rsh_olu);
-        Waze.map.addControl(new OL.Control.DrawFeature(rsh_olu, OL.Handler.Path));
+        W.map.addLayer(rsh_olu);
+        W.map.addControl(new OL.Control.DrawFeature(rsh_olu, OL.Handler.Path));
 
-        if (userFallback) rsh_olu.setZIndex(Waze.map.roadLayers[0].getZIndex()-1);
-        else Waze.map.setLayerIndex(rsh_olu, Waze.map.getLayerIndex(Waze.map.roadLayers[0])-1);
+        if (userFallback) rsh_olu.setZIndex(W.map.roadLayers[0].getZIndex()-1);
+        else W.map.setLayerIndex(rsh_olu, W.map.getLayerIndex(W.map.roadLayers[0])-1);
 
         rsh_olu.setVisibility(false);
         rsh_olu._featureMap = {
@@ -2079,11 +2079,11 @@ function RSelHighlights() {
         userFallback = this.checked;
         if (userFallback) {
             localStorage.RSHighlights_Prefs = localStorage.RSHighlights_Prefs.replace(/&f|$/, '&f'); //fallback
-            Waze.map.setLayerIndex(rsh_OLu, Waze.map.getLayerIndex(rsh_OL)-1);
-            rsh_OLu.setZIndex(Waze.map.roadLayers[0].getZIndex()-1);
+            W.map.setLayerIndex(rsh_OLu, W.map.getLayerIndex(rsh_OL)-1);
+            rsh_OLu.setZIndex(W.map.roadLayers[0].getZIndex()-1);
         } else {
             localStorage.RSHighlights_Prefs = localStorage.RSHighlights_Prefs.replace(/&f/, '');
-            Waze.map.setLayerIndex(rsh_OLu, Waze.map.getLayerIndex(Waze.map.roadLayers[0])-1);
+            W.map.setLayerIndex(rsh_OLu, W.map.getLayerIndex(W.map.roadLayers[0])-1);
         }
         rsh.triggerUpdate = true;
         requestAnimationFrame(function() {
@@ -2534,7 +2534,7 @@ function RSelHighlights() {
 
     var updateAfterSaveHighlights = function(evt) {
         Highlight(true);
-        if (userFallback) rsh_OLu.setZIndex(Waze.map.roadLayers[0].getZIndex()-1);
+        if (userFallback) rsh_OLu.setZIndex(W.map.roadLayers[0].getZIndex()-1);
     };
 
     var updateModifiedHighlights = function(evt) {
@@ -2550,21 +2550,21 @@ function RSelHighlights() {
             rsh_OLu.setVisibility(false); //yolked layer
             rsh_OLu.destroyAllFeatureMaps();
             rsh.showSessionHighlights = false;
-            Waze.map.events.unregister('moveend', Waze.map, updateMapExtentHighlights);
-            Waze.model.actionManager.events.unregister('afterundoaction', null, updateUndoHighlights);
-            Waze.model.actionManager.events.unregister('afterclearactions', null, updateAfterSaveHighlights);
-            Waze.map.segmentLayer.events.unregister('featuremodified', W.model.segments.objects, updateModifiedHighlights);
+            W.map.events.unregister('moveend', W.map, updateMapExtentHighlights);
+            W.model.actionManager.events.unregister('afterundoaction', null, updateUndoHighlights);
+            W.model.actionManager.events.unregister('afterclearactions', null, updateAfterSaveHighlights);
+            W.map.segmentLayer.events.unregister('featuremodified', W.model.segments.objects, updateModifiedHighlights);
         } else {
             rsh_OLu.setVisibility(true); //yolked layer
             rsh.showSessionHighlights = true;
-            Waze.map.events.register('moveend', Waze.map, updateMapExtentHighlights);
-            Waze.model.actionManager.events.register('afterundoaction', null, updateUndoHighlights);
-            Waze.model.actionManager.events.register('afterclearactions', null, updateAfterSaveHighlights);
-            Waze.map.segmentLayer.events.register('featuremodified', W.model.segments.objects, updateModifiedHighlights);
+            W.map.events.register('moveend', W.map, updateMapExtentHighlights);
+            W.model.actionManager.events.register('afterundoaction', null, updateUndoHighlights);
+            W.model.actionManager.events.register('afterclearactions', null, updateAfterSaveHighlights);
+            W.map.segmentLayer.events.register('featuremodified', W.model.segments.objects, updateModifiedHighlights);
         }
     };
 
-    rsh_OL.events.register('visibilitychanged', Waze.map.layers, toggleHighlightEvents);
+    rsh_OL.events.register('visibilitychanged', W.map.layers, toggleHighlightEvents);
 
     rsh_OL.setVisibility(rsh.showSessionHighlights);
     rsh_OLu.setVisibility(rsh.showSessionHighlights);
