@@ -1,6 +1,4 @@
-# WME-Road-Selector-Highlights
-
-*** WME Road Selector must also be installed to use this script ***
+# *** WME Road Selector must also be installed to use this script ***
 
 You might also be interested in another WME Road Selector companion script: WME Road Selector Expression Editor
 
