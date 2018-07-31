@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            WME Road Selector Highlights
 // @namespace       https://greasyfork.org/users/11629-TheLastTaterTot
-// @version         2018.05.12.01
+// @version         2018.07.30.01
 // @description     Create custom highlighters to colorize segments based on your selection criteria. Requires WME Road Selector to function.
 // @author          TheLastTaterTot
 // @include         https://beta.waze.com/*editor*
@@ -2582,18 +2582,16 @@ var waitForWMERSel = function() {
                     RSel = unsafeWindow.RoadSelector;
                     if (typeof $ === 'undefined') {
                         $ = unsafeWindow.$;
-                        W = Waze = unsafeWindow.Waze;
+                        W = unsafeWindow.W;
                     }
 
                     RSelHighlights(RSel);
 
                 } else {
-                    if (waitCount++ < 35) {
+                    if (waitCount++ < 35)
                         setTimeout(tryInitRSH, 600);
-                    } else {
-                        console.error(
-                            'WME RSel Highlights: Could not link up with WME Road Selector.');
-                    }
+                    else
+                        console.error('WME RSel Highlights: Could not link up with WME Road Selector.');
                 }
             } catch (err) {
                 console.error(err)
