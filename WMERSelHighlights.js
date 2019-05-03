@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            WME Road Selector Highlights
 // @namespace       https://greasyfork.org/users/11629-TheLastTaterTot
-// @version         2018.07.30.01
+// @version         2019.05.03.01
 // @description     Create custom highlighters to colorize segments based on your selection criteria. Requires WME Road Selector to function.
 // @author          TheLastTaterTot
 // @include         https://beta.waze.com/*editor*
