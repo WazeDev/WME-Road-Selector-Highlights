@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            WME Road Selector Highlights
 // @namespace       https://greasyfork.org/users/11629-TheLastTaterTot
-// @version         2019.05.03.01
+// @version         2020.01.08.01
 // @description     Create custom highlighters to colorize segments based on your selection criteria. Requires WME Road Selector to function.
 // @author          TheLastTaterTot
 // @include         https://beta.waze.com/*editor*
@@ -1021,7 +1021,7 @@ function RSelHighlights() {
                 //checkAllSegs = true;
             } //      Pass Boolean true or rsh.idx. TODO: Allow specifying rsh.idx
 
-            var currentZoom = W.map.zoom,
+            var currentZoom = W.map.getZoom(),
                 lineStyle = rsh._clone(rsh_seg[currentZoom].lineStyle),
                 lineStyleOvrlp = rsh_seg[currentZoom].lineStyleOvrlp,
                 traceLineStyle = rsh_seg[currentZoom].traceLineStyle,
@@ -1383,7 +1383,7 @@ function RSelHighlights() {
             requestAnimationFrame(function() {
                 //calculate current active bounds at same scale
                 var currentCenter = W.map.getCenter(), //lon-lat
-                    scalingFactor = W.map.getResolutionForZoom(3), //OL.Util.getScaleFromResolution(W.map.getResolutionForZoom(zoomOfDataExtent), W.map.baseLayer.units),
+                    scalingFactor = W.map.getOLMap().getResolutionForZoom(3), //OL.Util.getScaleFromResolution(W.map.getResolutionForZoom(zoomOfDataExtent), W.map.baseLayer.units),
                     newDataBounds = W.map.getExtent().scale(scalingFactor, currentCenter),
                     featKeysSegID = Object.keys(layer._featureMap[String(featMapKey)]),
                     nfeatKeysSegID = featKeysSegID.length,
@@ -1450,7 +1450,7 @@ function RSelHighlights() {
         W.map.addControl(new OL.Control.DrawFeature(rsh_olu, OL.Handler.Path));
 
         if (userFallback) rsh_olu.setZIndex(W.map.roadLayers[0].getZIndex()-1);
-        else W.map.setLayerIndex(rsh_olu, W.map.getLayerIndex(W.map.roadLayers[0])-1);
+        else W.map.getOLMap().setLayerIndex(rsh_olu, W.map.getOLMap().getLayerIndex(W.map.roadLayers[0])-1);
 
         rsh_olu.setVisibility(false);
         rsh_olu._featureMap = {
@@ -2079,11 +2079,11 @@ function RSelHighlights() {
         userFallback = this.checked;
         if (userFallback) {
             localStorage.RSHighlights_Prefs = localStorage.RSHighlights_Prefs.replace(/&f|$/, '&f'); //fallback
-            W.map.setLayerIndex(rsh_OLu, W.map.getLayerIndex(rsh_OL)-1);
+            W.map.getOLMap().setLayerIndex(rsh_OLu, W.map.getOLMap().getLayerIndex(rsh_OL)-1);
             rsh_OLu.setZIndex(W.map.roadLayers[0].getZIndex()-1);
         } else {
             localStorage.RSHighlights_Prefs = localStorage.RSHighlights_Prefs.replace(/&f/, '');
-            W.map.setLayerIndex(rsh_OLu, W.map.getLayerIndex(W.map.roadLayers[0])-1);
+            W.map.getOLMap().setLayerIndex(rsh_OLu, W.map.getOLMap().getLayerIndex(W.map.roadLayers[0])-1);
         }
         rsh.triggerUpdate = true;
         requestAnimationFrame(function() {
@@ -2569,7 +2569,7 @@ function RSelHighlights() {
     rsh_OL.setVisibility(rsh.showSessionHighlights);
     rsh_OLu.setVisibility(rsh.showSessionHighlights);
     //------------------------------------------------------------------------
-    zoomLevel = W.map.zoom;
+    zoomLevel = W.map.getZoom();
     setTimeout(Highlight, 4000);
 }
 
