@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            WME Road Selector Highlights
 // @namespace       https://greasyfork.org/users/11629-TheLastTaterTot
-// @version         2020.01.08.01
+// @version         2020.05.22.01
 // @description     Create custom highlighters to colorize segments based on your selection criteria. Requires WME Road Selector to function.
 // @author          TheLastTaterTot
 // @include         https://beta.waze.com/*editor*
@@ -1320,7 +1320,7 @@ function RSelHighlights() {
                 lineOptions.strokeOpacity = 0.9;
             }
             //this._featureMap[String(rshIndex)][segID] = { highlight: true, bounds: seg.geometry.bounds};
-            feature = new OL.Feature.Vector(new OL.Geometry.LineString(vertices), {
+            feature = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.LineString(vertices), {
                 id: segID,
                 rshIndex: rshIndex,
                 rshID: rshID,
@@ -1383,7 +1383,7 @@ function RSelHighlights() {
             requestAnimationFrame(function() {
                 //calculate current active bounds at same scale
                 var currentCenter = W.map.getCenter(), //lon-lat
-                    scalingFactor = W.map.getOLMap().getResolutionForZoom(3), //OL.Util.getScaleFromResolution(W.map.getResolutionForZoom(zoomOfDataExtent), W.map.baseLayer.units),
+                    scalingFactor = W.map.getOLMap().getResolutionForZoom(3), //OpenLayers.Util.getScaleFromResolution(W.map.getResolutionForZoom(zoomOfDataExtent), W.map.baseLayer.units),
                     newDataBounds = W.map.getExtent().scale(scalingFactor, currentCenter),
                     featKeysSegID = Object.keys(layer._featureMap[String(featMapKey)]),
                     nfeatKeysSegID = featKeysSegID.length,
@@ -1413,7 +1413,7 @@ function RSelHighlights() {
     };
 
     var initHighlightsLayer = function() {
-        var rsh_ol = new OL.Layer.Vector("Road Selector Highlights", { //W.map.getLayersByName("Road Selector Highlights")[0]
+        var rsh_ol = new OpenLayers.Layer.Vector("Road Selector Highlights", { //W.map.getLayersByName("Road Selector Highlights")[0]
             rendererOptions: {
                 zIndexing: true
             },
@@ -1424,7 +1424,7 @@ function RSelHighlights() {
 
         I18n.translations[I18n.currentLocale()].layers.name.__RSel_Highlights = 'Road Selector Highlights';
         W.map.addLayer(rsh_ol);
-        W.map.addControl(new OL.Control.DrawFeature(rsh_ol, OL.Handler.Path));
+        W.map.addControl(new OpenLayers.Control.DrawFeature(rsh_ol, OpenLayers.Handler.Path));
         rsh_ol.setZIndex(501);
         rsh_ol.setVisibility(false);
         rsh_ol._featureMap = {
@@ -1436,7 +1436,7 @@ function RSelHighlights() {
     };
 
     var initUnderRoadsLayer = function() {
-        var rsh_olu = new OL.Layer.Vector("Road Selector Highlights (Under)", { //W.map.getLayersByName("Road Selector Highlights")[0]
+        var rsh_olu = new OpenLayers.Layer.Vector("Road Selector Highlights (Under)", { //W.map.getLayersByName("Road Selector Highlights")[0]
             rendererOptions: {
                 zIndexing: true
             },
@@ -1447,7 +1447,7 @@ function RSelHighlights() {
 
         I18n.translations[I18n.currentLocale()].layers.name.__RSel_Highlights_Under = 'Road Selector Highlights (Under)';
         W.map.addLayer(rsh_olu);
-        W.map.addControl(new OL.Control.DrawFeature(rsh_olu, OL.Handler.Path));
+        W.map.addControl(new OpenLayers.Control.DrawFeature(rsh_olu, OpenLayers.Handler.Path));
 
         if (userFallback) rsh_olu.setZIndex(W.map.roadLayers[0].getZIndex()-1);
         else W.map.getOLMap().setLayerIndex(rsh_olu, W.map.getOLMap().getLayerIndex(W.map.roadLayers[0])-1);
